@@ -215,8 +215,46 @@
 
     <script>
 
-      //document.addEventListener("DOMContentLoaded", (evt) => {
-      //});
+      let arriveTimestamp, leaveTimestamp;
+
+      document.addEventListener("DOMContentLoaded", (evt) => {
+        arriveTimestamp = Date.now();
+      });
+
+//      function onPageLeave() {
+//        let leaveTimestamp = Date.now();
+//      }
+
+      document.addEventListener("visibilitychange", () => {
+
+        if (document.visibilityState === "hidden") {
+          leaveTimestamp = Date.now();
+
+          const data = {
+            start: arriveTimestamp,
+            end: leaveTimestamp
+          };
+
+          const payload = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(data),
+          };
+
+          fetch('http://localhost:3000/api/visitor', payload)
+            .catch((error) => {
+              // fail silently
+              console.debug('WARNING:stats endpoint failure.', error);
+            });
+
+        } else if (document.visibilityState === "visible") {
+          arriveTimestamp = Date.now();
+        }
+
+      });
 
     </script>
 
