@@ -235,6 +235,8 @@
 
       let arriveTimestamp, leaveTimestamp, destination;
 
+      const apiURL = "https://api.demonseedsouthside.com/visitor";
+
       document.addEventListener("DOMContentLoaded", (evt) => {
         arriveTimestamp = Date.now();
         destination = null;
@@ -260,7 +262,7 @@
             body: JSON.stringify(data),
           };
 
-          fetch('http://localhost:3000/api/visitor', payload)
+          fetch(apiURL, payload)
             .catch((error) => {
               // fail silently
               console.debug('WARNING: stats endpoint failure.', error);
